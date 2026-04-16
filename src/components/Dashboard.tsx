@@ -3,6 +3,10 @@ import MetricCard from "./MetricCard";
 import RevenueOrderChart from "./charts/RevenueOrderChart";
 import CustomerAOVChart from "./charts/CustomerAOVChart";
 import TrafficSources from "./TrafficSources";
+import ConversionFunnel from "./charts/ConversionFunnel";
+import RetentionChart from "./charts/RetentionChart";
+import SalesForecast from "./charts/SalesForecast";
+import GeographicMap from "./charts/GeographicMap";
 import SalesByCategory from "./SalesByCategory";
 import TopProducts from "./TopProducts";
 import { Button, Toggle, Breadcrumb, Icon, DatePicker } from "./ui";
@@ -17,9 +21,8 @@ const Dashboard: React.FC<DashboardProps> = ({ isSidebarCollapsed }) => {
 
   return (
     <main
-      className={`pt-24 pb-12 px-8 min-h-screen transition-all duration-300 ease-in-out ${
-        isSidebarCollapsed ? "ml-20" : "ml-64"
-      }`}
+      className={`pt-24 pb-12 px-8 min-h-screen transition-all duration-300 ease-in-out ${isSidebarCollapsed ? "ml-20" : "ml-64"
+        }`}
     >
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
         <div className="flex flex-col gap-2">
@@ -88,10 +91,10 @@ const Dashboard: React.FC<DashboardProps> = ({ isSidebarCollapsed }) => {
           isHoverable={false}
         />
         <MetricCard
-          title="LTV"
-          value="$1,240"
-          trend="15%"
-          icon="person_pin_circle"
+          title="Customer"
+          value="303"
+          trend="10%"
+          icon="person"
           iconBgClass="bg-gray-200"
           iconTextClass="text-gray-600"
           groupHoverBgClass="group-hover:bg-gray-900"
@@ -103,6 +106,10 @@ const Dashboard: React.FC<DashboardProps> = ({ isSidebarCollapsed }) => {
         <RevenueOrderChart />
         <CustomerAOVChart />
         <TrafficSources />
+        <ConversionFunnel />
+        <RetentionChart />
+        <SalesForecast />
+        <GeographicMap />
         <SalesByCategory />
         <TopProducts />
       </div>
