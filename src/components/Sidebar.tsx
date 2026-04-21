@@ -3,9 +3,22 @@ import { Icon, Button, IconButton } from "./ui";
 interface SidebarProps {
   isCollapsed: boolean;
   onToggle: () => void;
+  currentView: string;
+  onViewChange: (view: string) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, currentView, onViewChange }) => {
+  const navItems = [
+    { name: "dashboard", label: "Dashboard", view: "dashboard" },
+    { name: "analytics", label: "Analytics", view: "analytics" },
+    { name: "payments", label: "Payment", view: "payments" },
+    { name: "group", label: "Customers", view: "customers" },
+    { name: "inventory_2", label: "Product", view: "products" },
+    { name: "receipt_long", label: "Invoice", view: "invoice" },
+    { name: "mail", label: "Messages", view: "messages" },
+    { name: "smart_toy", label: "Automation", view: "automation" },
+  ];
+
   return (
     <aside
       className={`h-screen scrollbar-hide border-r fixed left-0 top-0 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 shadow-sm flex flex-col pt-4 pb-6 font-['Inter'] text-[13px] xl:text-sm antialiased z-50 transition-all duration-300 ease-in-out ${isCollapsed ? "w-20" : "w-64"
@@ -38,35 +51,29 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
       </div>
 
       <nav className="flex-1 space-y-0.5 xl:space-y-1 overflow-y-auto scrollbar-hide">
-        {[
-          { name: "dashboard", label: "Dashboard" },
-          { name: "payments", label: "Payment" },
-          { name: "group", label: "Customers" },
-          { name: "mail", label: "Messages" },
-          { name: "inventory_2", label: "Product" },
-          { name: "receipt_long", label: "Invoice" },
-          { name: "analytics", label: "Analytics", active: true },
-          { name: "smart_toy", label: "Automation" },
-        ].map((item) => (
-          <a
-            key={item.name}
-            className={`flex items-center gap-3 px-6 py-2 xl:py-3 transition-all active:scale-95 duration-150 ease-in-out whitespace-nowrap ${item.active
-              ? "bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 font-semibold border-r-4 border-purple-600"
-              : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800"
-              }`}
-            href="#"
-          >
-            <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
-              <Icon name={item.name} filled={item.active} />
-            </div>
-            <span
-              className={`transition-opacity duration-300 ${isCollapsed ? "opacity-0 invisible" : "opacity-100"
+        {navItems.map((item) => {
+          const isActive = currentView === item.view;
+          return (
+            <button
+              key={item.view}
+              onClick={() => onViewChange(item.view)}
+              className={`w-full flex items-center gap-3 px-6 py-2 xl:py-3 transition-all active:scale-95 duration-150 ease-in-out whitespace-nowrap border-r-4 ${isActive
+                ? "bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 font-semibold border-purple-600"
+                : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 border-transparent"
                 }`}
             >
-              {item.label}
-            </span>
-          </a>
-        ))}
+              <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
+                <Icon name={item.name} filled={isActive} />
+              </div>
+              <span
+                className={`transition-opacity duration-300 ${isCollapsed ? "opacity-0 invisible" : "opacity-100"
+                  }`}
+              >
+                {item.label}
+              </span>
+            </button>
+          );
+        })}
       </nav>
 
       <div className="mt-auto px-6 py-2 xl:py-4 space-y-2 xl:space-y-4">

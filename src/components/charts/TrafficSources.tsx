@@ -1,15 +1,9 @@
 import React, { useRef } from "react";
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import type { ChartData, ChartOptions } from "chart.js";
+import "chart.js/auto";
 import { Doughnut } from "react-chartjs-2";
-import { Card } from "./ui";
-
-ChartJS.register(ArcElement, Tooltip, Legend);
+import { Card, ChartHeader } from "../ui";
+import { Chart as ChartJS } from "chart.js";
+import type { ChartData, ChartOptions } from "chart.js";
 
 const TrafficSources: React.FC = () => {
   const chartRef = useRef<ChartJS<"doughnut">>(null);
@@ -89,12 +83,14 @@ const TrafficSources: React.FC = () => {
 
   return (
     <Card className="col-span-12 lg:col-span-4 border-2 border-gray-200 shadow-xl" hoverable={false}>
-      <div className="flex justify-between items-center mb-8">
-        <h4 className="text-lg font-bold text-gray-900">Traffic Sources</h4>
-        <span className="text-[10px] font-bold text-purple-600 bg-purple-50 px-2 py-0.5 rounded-full uppercase">
-          Live
-        </span>
-      </div>
+      <ChartHeader
+        title="Traffic Sources"
+        actions={
+          <span className="text-[10px] font-bold text-purple-600 bg-purple-50 px-2 py-0.5 rounded-full uppercase">
+            Live
+          </span>
+        }
+      />
 
       {/* Chart Display Area */}
       <div className="relative h-56 w-full mb-10 flex items-center justify-center">

@@ -9,6 +9,7 @@ interface ProgressBarProps {
   rightLabel?: string;
   color?: ProgressColor;
   size?: "sm" | "md" | "lg";
+  className?: string;
 }
 
 const ProgressBar: React.FC<ProgressBarProps> = ({
@@ -18,6 +19,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
   rightLabel,
   color = "purple",
   size = "md",
+  className = "",
 }) => {
   const colorMap = {
     purple: "bg-purple-600",
@@ -49,7 +51,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
         </div>
       )}
       <div
-        className={`w-full bg-gray-100 rounded-full overflow-hidden ${sizeMap[size]}`}
+        className={`w-full bg-gray-100 rounded-full overflow-hidden ${sizeMap[size]} ${className}`}
       >
         <div
           className={`h-full ${colorMap[color]} rounded-full transition-all duration-300`}

@@ -1,19 +1,21 @@
-import { Card } from "./ui";
+import { Card, ChartHeader } from "../ui";
 
 const RevenueChart = () => {
   return (
     <Card className="col-span-12 lg:col-span-8" hoverable={false}>
-      <div className="flex justify-between items-center mb-8">
-        <h4 className="text-lg font-bold text-gray-900">Revenue Trend</h4>
-        <div className="flex items-center gap-2">
-          <span className="flex items-center gap-1.5 text-xs font-medium text-gray-500">
-            <span className="w-3 h-3 rounded-full bg-purple-600"></span> Current
-          </span>
-          <span className="flex items-center gap-1.5 text-xs font-medium text-gray-300">
-            <span className="w-3 h-3 rounded-full bg-gray-200"></span> Previous
-          </span>
-        </div>
-      </div>
+      <ChartHeader
+        title="Revenue Trend"
+        actions={
+          <div className="flex items-center gap-2">
+            <span className="flex items-center gap-1.5 text-xs font-medium text-gray-500">
+              <span className="w-3 h-3 rounded-full bg-purple-600"></span> Current
+            </span>
+            <span className="flex items-center gap-1.5 text-xs font-medium text-gray-300">
+              <span className="w-3 h-3 rounded-full bg-gray-200"></span> Previous
+            </span>
+          </div>
+        }
+      />
       <div className="h-75 w-full relative">
         <div className="absolute inset-0 flex flex-col justify-between pointer-events-none">
           <div className="border-t border-gray-100 w-full h-0 flex items-center justify-between text-[10px] text-gray-400">

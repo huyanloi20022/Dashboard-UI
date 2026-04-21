@@ -11,6 +11,8 @@ export { default as StatBox } from "./StatBox";
 export { default as Icon } from "./Icon";
 export { default as Search } from "./Search";
 export { default as DatePicker } from "./DatePicker";
+export { default as Section } from "./Section";
+export { default as ChartHeader } from "./ChartHeader";
 
 // Export types
 export type { BreadcrumbItem } from "./Breadcrumb";

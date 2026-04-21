@@ -1,11 +1,12 @@
-import { Card, ProgressBar, StatBox } from "./ui";
+import { Card, ProgressBar, StatBox, ChartHeader } from "../ui";
 
 const SalesByCategory = () => {
   return (
-    <Card className="col-span-12" hoverable={false}>
-      <h4 className="text-lg font-bold text-gray-900 mb-8">
-        Sales by Category
-      </h4>
+    <Card className="col-span-8 grid-0 flex flex-col justify-center" hoverable={false}>
+      <ChartHeader
+        title="Sales by Category"
+        subtitle="Revenue distribution by product category"
+      />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <div className="space-y-4">
           <ProgressBar

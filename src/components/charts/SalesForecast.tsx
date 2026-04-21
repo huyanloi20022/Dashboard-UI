@@ -1,29 +1,6 @@
-import React from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler,
-} from "chart.js";
-import type { ChartOptions, ChartData } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { Card } from "../ui";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-);
+import { Card, ChartHeader } from "../ui";
+import type { ChartOptions, ChartData } from "chart.js";
 
 const SalesForecast = () => {
   const labels = ["Oct", "Nov", "Dec", "Jan (Now)", "Feb", "Mar"];
@@ -106,23 +83,23 @@ const SalesForecast = () => {
   };
 
   return (
-    <Card className="col-span-12 lg:col-span-6 bg-white border-2 border-gray-200 shadow-xl" hoverable={false}>
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h4 className="text-lg font-bold text-gray-900">Sales Forecast</h4>
-          <p className="text-xs text-gray-400 mt-1">Predicting growth trends for the next quarter</p>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2">
-            <span className="w-4 h-0.5 border-t-2 border-purple-600"></span>
-            <span className="text-[10px] uppercase font-bold text-gray-400">Actual</span>
+    <Card className="col-span-12 lg:col-span-8 bg-white border-2 border-gray-200 shadow-xl" hoverable={false}>
+      <ChartHeader
+        title="Sales Forecast"
+        subtitle="Predicting growth trends for the next quarter"
+        actions={
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="w-4 h-0.5 border-t-2 border-purple-600"></span>
+              <span className="text-[10px] uppercase font-bold text-gray-400">Actual</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-4 h-0.5 border-t-2 border-dashed border-purple-600"></span>
+              <span className="text-[10px] uppercase font-bold text-gray-400">Forecast</span>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="w-4 h-0.5 border-t-2 border-dashed border-purple-600"></span>
-            <span className="text-[10px] uppercase font-bold text-gray-400">Forecast</span>
-          </div>
-        </div>
-      </div>
+        }
+      />
 
       <div className="h-[320px] w-full">
         <Line data={data} options={options} />

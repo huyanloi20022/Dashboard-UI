@@ -1,25 +1,6 @@
-import React from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import type { ChartOptions, ChartData } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { Card } from "../ui";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import { Card, ChartHeader } from "../ui";
+import type { ChartOptions, ChartData } from "chart.js";
 
 const RetentionChart = () => {
   const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
@@ -111,16 +92,16 @@ const RetentionChart = () => {
   };
 
   return (
-    <Card className="col-span-12 lg:col-span-6 bg-white border-2 border-gray-200 shadow-xl" hoverable={false}>
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h4 className="text-lg font-bold text-gray-900">Customer Retention</h4>
-          <p className="text-xs text-gray-400 mt-1">New vs. Returning over 6 months</p>
-        </div>
-        <div className="flex items-center gap-2 px-3 py-1 bg-purple-50 text-purple-600 rounded-full text-[10px] font-bold uppercase tracking-wider">
-          +24% Growth
-        </div>
-      </div>
+    <Card className="col-span-12 lg:col-span-6 bg-white border-2 border-gray-200" hoverable={false}>
+      <ChartHeader
+        title="Customer Retention"
+        subtitle="New vs. Returning over 6 months"
+        actions={
+          <div className="flex items-center gap-2 px-3 py-1 bg-purple-50 text-purple-600 rounded-full text-[10px] font-bold uppercase tracking-wider">
+            +24% Growth
+          </div>
+        }
+      />
 
       <div className="h-[300px] w-full">
         <Bar data={data} options={options} />

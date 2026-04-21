@@ -1,25 +1,6 @@
-import React from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import type { ChartOptions, ChartData } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { Card } from "../ui";
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import { Card, ChartHeader } from "../ui";
+import type { ChartOptions, ChartData } from "chart.js";
 
 const ConversionFunnel = () => {
   const labels = [
@@ -102,17 +83,17 @@ const ConversionFunnel = () => {
 
   return (
     <Card className="col-span-12 lg:col-span-8 bg-white border-2 border-gray-200 shadow-xl" hoverable={false}>
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h4 className="text-lg font-bold text-gray-900">Conversion Funnel</h4>
-          <p className="text-xs text-gray-400 mt-1">Visit to purchase journey</p>
-        </div>
-        <div className="px-3 py-1 bg-green-50 text-green-600 rounded-full text-[10px] font-bold uppercase tracking-wider">
-          {((funnelData[4] / funnelData[0]) * 100).toFixed(1)}% Conv. Rate
-        </div>
-      </div>
+      <ChartHeader
+        title="Conversion Funnel"
+        subtitle="Visit to purchase journey"
+        actions={
+          <div className="px-3 py-1 bg-green-50 text-green-600 rounded-full text-[10px] font-bold uppercase tracking-wider">
+            {((funnelData[4] / funnelData[0]) * 100).toFixed(1)}% Conv. Rate
+          </div>
+        }
+      />
 
-      <div className="h-[320px] w-full relative">
+      <div className="h-[400px] w-full relative">
         <Bar data={data} options={options} />
 
         {/* Stage connection indicators (optional but nice) */}
@@ -125,7 +106,7 @@ const ConversionFunnel = () => {
         </div>
       </div>
 
-      <div className="mt-6 pt-6 border-t border-gray-50 grid grid-cols-2 gap-4">
+      <div className="border-t border-gray-50 grid grid-cols-2 gap-4">
         <div className="flex flex-col gap-1">
           <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Overall Drop-off</span>
           <span className="text-sm font-bold text-red-500">

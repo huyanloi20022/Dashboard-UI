@@ -2,22 +2,129 @@ import { useState } from "react";
 import MetricCard from "./MetricCard";
 import RevenueOrderChart from "./charts/RevenueOrderChart";
 import CustomerAOVChart from "./charts/CustomerAOVChart";
-import TrafficSources from "./TrafficSources";
-import ConversionFunnel from "./charts/ConversionFunnel";
-import RetentionChart from "./charts/RetentionChart";
+import TrafficSources from "./charts/TrafficSources";
 import SalesForecast from "./charts/SalesForecast";
-import GeographicMap from "./charts/GeographicMap";
-import SalesByCategory from "./SalesByCategory";
-import TopProducts from "./TopProducts";
-import { Button, Toggle, Breadcrumb, Icon, DatePicker } from "./ui";
+import SalesByCategory from "./charts/SalesByCategory";
+import InventoryHealthChart from "./charts/InventoryHealthChart";
+import RetentionChart from "./charts/RetentionChart";
+import RFMMatrix from "./charts/RFMMatrix";
+import CohortMatrix from "./charts/CohortMatrix";
+
+import { Button, Toggle, Breadcrumb, Icon, DatePicker, Section } from "./ui";
+import TopProductsChart from "./charts/TopProductsChart";
+import OrderStatusChart from "./charts/OrderStatusChart";
+import FulfillmentLatencyChart from "./charts/FulfillmentLatencyChart";
+import ConversionFunnel from "./charts/ConversionFunnel";
+import PaymentMethodChart from "./charts/PaymentMethodChart";
+import TransactionStatusChart from "./charts/TransactionStatusChart";
+import ShippingMethodChart from "./charts/ShippingMethodChart";
+import PaymentHealthChart from "./charts/PaymentHealthChart";
 
 interface DashboardProps {
   isSidebarCollapsed: boolean;
+  currentView: string;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ isSidebarCollapsed }) => {
+const Dashboard: React.FC<DashboardProps> = ({ isSidebarCollapsed, currentView }) => {
   const [compareEnabled, setCompareEnabled] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const renderContent = () => {
+    return (
+      <div className="space-y-12">
+        {/* Overview Section */}
+        <Section title="Overview" accentColor="purple">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <MetricCard
+              title="Total Revenue"
+              value="$45,890"
+              trend="12%"
+              icon="payments"
+              iconBgClass="bg-purple-200"
+              iconTextClass="text-purple-600"
+              groupHoverBgClass="group-hover:bg-purple-600"
+              isHoverable={false}
+            />
+            <MetricCard
+              title="Orders"
+              value="856"
+              trend="8%"
+              icon="shopping_bag"
+              iconBgClass="bg-cyan-100"
+              iconTextClass="text-cyan-600"
+              groupHoverBgClass="group-hover:bg-cyan-600"
+              isHoverable={false}
+            />
+            <MetricCard
+              title="Avg Order Value"
+              value="$53.60"
+              trend="-2%"
+              icon="receipt"
+              iconBgClass="bg-pink-200"
+              iconTextClass="text-pink-600"
+              groupHoverBgClass="group-hover:bg-pink-600"
+              isHoverable={false}
+            />
+            <MetricCard
+              title="Customer"
+              value="303"
+              trend="10%"
+              icon="person"
+              iconBgClass="bg-gray-200"
+              iconTextClass="text-gray-600"
+              groupHoverBgClass="group-hover:bg-gray-900"
+              isHoverable={false}
+            />
+          </div>
+
+          <div className="grid grid-cols-12 gap-8">
+            <RevenueOrderChart />
+            <CustomerAOVChart />
+          </div>
+        </Section>
+        {/* Product Section */}
+        <Section title="Product" accentColor="purple">
+          <div className="grid grid-cols-12 grid-rows-2 gap-6">
+            <TopProductsChart />
+            <SalesByCategory />
+            <InventoryHealthChart />
+          </div>
+        </Section>
+        {/* Customer Section */}
+        <Section title="Customer" accentColor="purple">
+          <div className="grid grid-cols-12 gap-6">
+            <RetentionChart />
+            <RFMMatrix />
+            <CohortMatrix />
+          </div>
+        </Section>
+        {/* Order Section */}
+        <Section title="Order" accentColor="purple">
+          <div className="grid grid-cols-12 gap-8">
+            <OrderStatusChart />
+            <FulfillmentLatencyChart />
+            <ConversionFunnel />
+            <ShippingMethodChart />
+          </div>
+        </Section>
+        {/* Payment Section */}
+        <Section title="Payment" accentColor="purple">
+          <div className="grid grid-cols-12 gap-6">
+            <PaymentHealthChart />
+            <PaymentMethodChart />
+            <TransactionStatusChart />
+          </div>
+        </Section>
+        {/* Other Section */}
+        <Section title="Other" accentColor="purple">
+          <div className="grid grid-cols-12 gap-8">
+            <TrafficSources />
+            <SalesForecast />
+          </div>
+        </Section>
+      </div>
+    )
+  };
 
   return (
     <main
@@ -29,11 +136,11 @@ const Dashboard: React.FC<DashboardProps> = ({ isSidebarCollapsed }) => {
           <Breadcrumb
             items={[
               { label: "Dashboard", href: "/" },
-              { label: "Analytics", active: true },
+              { label: currentView.charAt(0).toUpperCase() + currentView.slice(1), active: true },
             ]}
           />
-          <h2 className="text-3xl font-extrabold tracking-tight text-gray-900">
-            Analytics
+          <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 capitalize">
+            {currentView}
           </h2>
         </div>
         <div className="flex flex-wrap items-center gap-4 bg-white p-2 rounded-2xl shadow-sm border border-gray-100">
@@ -59,60 +166,7 @@ const Dashboard: React.FC<DashboardProps> = ({ isSidebarCollapsed }) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <MetricCard
-          title="Total Revenue"
-          value="$45,890"
-          trend="12%"
-          icon="payments"
-          iconBgClass="bg-purple-200"
-          iconTextClass="text-purple-600"
-          groupHoverBgClass="group-hover:bg-purple-600"
-          isHoverable={false}
-        />
-        <MetricCard
-          title="Orders"
-          value="856"
-          trend="8%"
-          icon="shopping_bag"
-          iconBgClass="bg-cyan-100"
-          iconTextClass="text-cyan-600"
-          groupHoverBgClass="group-hover:bg-cyan-600"
-          isHoverable={false}
-        />
-        <MetricCard
-          title="Avg Order Value"
-          value="$53.60"
-          trend="-2%"
-          icon="receipt"
-          iconBgClass="bg-pink-200"
-          iconTextClass="text-pink-600"
-          groupHoverBgClass="group-hover:bg-pink-600"
-          isHoverable={false}
-        />
-        <MetricCard
-          title="Customer"
-          value="303"
-          trend="10%"
-          icon="person"
-          iconBgClass="bg-gray-200"
-          iconTextClass="text-gray-600"
-          groupHoverBgClass="group-hover:bg-gray-900"
-          isHoverable={false}
-        />
-      </div>
-
-      <div className="grid grid-cols-12 gap-8">
-        <RevenueOrderChart />
-        <CustomerAOVChart />
-        <TrafficSources />
-        <ConversionFunnel />
-        <RetentionChart />
-        <SalesForecast />
-        <GeographicMap />
-        <SalesByCategory />
-        <TopProducts />
-      </div>
+      {renderContent()}
     </main>
   );
 };
