@@ -25,14 +25,14 @@ const ConversionFunnel = () => {
         label: "Users",
         data: funnelData,
         backgroundColor: [
-          "#7C3AED", // Purple-600
-          "#9333EA", // Purple-700
-          "#C026D3", // Fuchsia-600
-          "#DB2777", // Pink-600
-          "#E11D48", // Rose-600
+          "#6366f1", // Indigo-500
+          "#818cf8", // Indigo-400
+          "#a5b4fc", // Indigo-300
+          "#c7d2fe", // Indigo-200
+          "#e0e7ff", // Indigo-100
         ],
-        borderRadius: 8,
-        barThickness: 32,
+        borderRadius: 12,
+        barThickness: 40,
       },
     ],
   };
@@ -82,13 +82,27 @@ const ConversionFunnel = () => {
   };
 
   return (
-    <Card className="col-span-12 lg:col-span-8 bg-white border-2 border-gray-200 shadow-xl" hoverable={false}>
+    <Card className="col-span-12 lg:col-span-8 border-2 border-gray-100 shadow-xl overflow-hidden" hoverable={false}>
       <ChartHeader
         title="Conversion Funnel"
-        subtitle="Visit to purchase journey"
+        subtitle="Visit to purchase journey analysis"
         actions={
-          <div className="px-3 py-1 bg-green-50 text-green-600 rounded-full text-[10px] font-bold uppercase tracking-wider">
-            {((funnelData[4] / funnelData[0]) * 100).toFixed(1)}% Conv. Rate
+          <div className="flex items-center gap-4">
+            <div className="flex bg-gray-100/50 p-1 rounded-lg">
+              {['All', 'Desktop', 'Mobile'].map((device) => (
+                <button
+                  key={device}
+                  className={`px-3 py-1 text-[9px] font-black uppercase tracking-widest rounded-md transition-all ${
+                    device === 'All' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'
+                  }`}
+                >
+                  {device}
+                </button>
+              ))}
+            </div>
+            <div className="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-black border border-emerald-100 uppercase tracking-widest">
+              {((funnelData[4] / funnelData[0]) * 100).toFixed(1)}% Conv. Rate
+            </div>
           </div>
         }
       />

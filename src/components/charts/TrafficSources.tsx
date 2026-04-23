@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import "chart.js/auto";
 import { Doughnut } from "react-chartjs-2";
-import { Card, ChartHeader } from "../ui";
+import { Card, ChartHeader, Icon } from "../ui";
 import { Chart as ChartJS } from "chart.js";
 import type { ChartData, ChartOptions } from "chart.js";
 
@@ -15,20 +15,20 @@ const TrafficSources: React.FC = () => {
       {
         data: [40, 35, 15, 10],
         backgroundColor: [
-          "#7C3AED", // Purple-600
-          "#06B6D4", // Cyan-500
-          "#EC4899", // Pink-500
-          "#10B981", // Green-500
+          "#6366f1", // Indigo-500
+          "#06b6d4", // Cyan-500
+          "#ec4899", // Pink-500
+          "#10b981", // Emerald-500
         ],
         hoverBackgroundColor: [
-          "#6D28D9",
-          "#0891B2",
-          "#DB2777",
+          "#4f46e5",
+          "#0891b2",
+          "#db2777",
           "#059669",
         ],
         borderWidth: 0,
-        borderRadius: 4,
-        spacing: 2,
+        borderRadius: 8,
+        spacing: 4,
       },
     ],
   };
@@ -36,7 +36,7 @@ const TrafficSources: React.FC = () => {
   const options: ChartOptions<"doughnut"> = {
     responsive: true,
     maintainAspectRatio: false,
-    cutout: "82%",
+    cutout: "80%",
     animation: {
       animateRotate: true,
       animateScale: true,
@@ -55,13 +55,7 @@ const TrafficSources: React.FC = () => {
         padding: 12,
         cornerRadius: 8,
         displayColors: true,
-        callbacks: {
-          label: (context) => {
-            const label = context.label || "";
-            const value = context.parsed || 0;
-            return ` ${label}: ${value}%`;
-          },
-        },
+        usePointStyle: true,
       },
     },
   };
@@ -82,31 +76,38 @@ const TrafficSources: React.FC = () => {
   };
 
   return (
-    <Card className="col-span-12 lg:col-span-4 border-2 border-gray-200 shadow-xl" hoverable={false}>
+    <Card className="col-span-12 lg:col-span-4 border-2 border-gray-100 shadow-xl overflow-hidden" hoverable={false}>
       <ChartHeader
         title="Traffic Sources"
+        subtitle="Visitor acquisition mix"
         actions={
-          <span className="text-[10px] font-bold text-purple-600 bg-purple-50 px-2 py-0.5 rounded-full uppercase">
-            Live
-          </span>
+          <div className="flex items-center gap-3">
+            <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-100 uppercase tracking-wider">
+              Live
+            </span>
+            <div className="h-4 w-px bg-gray-200"></div>
+            <button className="text-slate-400 hover:text-indigo-600 transition-colors" title="Export Report">
+              <Icon name="ios_share" size="sm" />
+            </button>
+          </div>
         }
       />
 
       {/* Chart Display Area */}
-      <div className="relative h-56 w-full mb-10 flex items-center justify-center">
+      <div className="relative h-60 w-full mb-8 flex items-center justify-center">
         <Doughnut ref={chartRef} data={data} options={options} />
 
         {/* Center Text Overlay */}
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          <span className="text-4xl font-extrabold text-gray-900 tracking-tight">24k</span>
-          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">
+          <span className="text-4xl font-black text-slate-900 tracking-tight">24k</span>
+          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">
             Total Visits
           </span>
         </div>
       </div>
 
       {/* Custom Interactive Legend */}
-      <div className="grid grid-cols-1 gap-3">
+      <div className="px-6 pb-8 grid grid-cols-2 gap-3">
         {data.labels?.map((label, i) => {
           const isHidden = hiddenIndices.includes(i);
           const color = (data.datasets[0].backgroundColor as string[])[i];
@@ -116,26 +117,27 @@ const TrafficSources: React.FC = () => {
             <button
               key={label as string}
               onClick={() => toggleDataset(i)}
-              className={`flex items-center justify-between p-2 rounded-xl border border-transparent transition-all duration-300 group ${isHidden
-                ? "grayscale"
-                : "hover:bg-gray-50 hover:border-gray-100"
-                }`}
+              className={`flex items-center gap-2 px-3 py-2 rounded-full border transition-all duration-300 group ${
+                isHidden
+                  ? "bg-gray-50 border-gray-100 opacity-40 grayscale shadow-inner"
+                  : "bg-white border-gray-100 hover:border-gray-200 hover:shadow-md active:scale-95"
+              }`}
             >
-              <div className="flex items-center gap-3">
-                <div
-                  className="w-2.5 h-2.5 rounded-full shadow-sm shadow-black/5"
-                  style={{ backgroundColor: color }}
-                ></div>
-                <span className={`text-sm font-semibold transition-colors ${isHidden ? "line-through" : ""
-                  }`}>
+              <div
+                className="w-3 h-3 rounded-full shadow-sm flex-shrink-0"
+                style={{ backgroundColor: color }}
+              ></div>
+              <div className="flex items-center gap-1 overflow-hidden">
+                <span className={`text-[11px] font-black whitespace-nowrap transition-colors ${
+                  isHidden ? "text-slate-400" : "text-slate-700"
+                }`}>
                   {label as string}
                 </span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <span className={`text-sm font-bold ${isHidden ? "text-gray-500" : ""}`}>
+                <span className={`text-[11px] font-black ${
+                  isHidden ? "text-slate-300" : "text-slate-900"
+                }`}>
                   {value}%
                 </span>
-                <div className={`w-1.5 h-1.5 rounded-full bg-gray-200 transition-transform group-hover:scale-125`}></div>
               </div>
             </button>
           );
@@ -143,6 +145,7 @@ const TrafficSources: React.FC = () => {
       </div>
     </Card>
   );
+
 };
 
 export default TrafficSources;

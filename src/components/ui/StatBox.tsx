@@ -17,8 +17,8 @@ const StatBox: React.FC<StatBoxProps> = ({
 }) => {
   return (
     <div
-      className={`p-4 bg-gray-50 rounded-xl ${
-        highlighted ? "border-2 border-purple-100" : ""
+      className={`p-4 bg-gray-50/50 rounded-xl transition-all duration-300 ${
+        highlighted ? "border-2 border-indigo-100 shadow-sm" : "border-2 border-transparent"
       }`}
     >
       <div className="flex items-start justify-between gap-2">

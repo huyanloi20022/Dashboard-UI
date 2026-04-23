@@ -1,33 +1,34 @@
 import { useState } from "react";
-import MetricCard from "./MetricCard";
-import RevenueOrderChart from "./charts/RevenueOrderChart";
-import CustomerAOVChart from "./charts/CustomerAOVChart";
-import TrafficSources from "./charts/TrafficSources";
-import SalesForecast from "./charts/SalesForecast";
-import SalesByCategory from "./charts/SalesByCategory";
-import InventoryHealthChart from "./charts/InventoryHealthChart";
-import RetentionChart from "./charts/RetentionChart";
-import RFMMatrix from "./charts/RFMMatrix";
-import CohortMatrix from "./charts/CohortMatrix";
+import MetricCard from "../components/MetricCard";
+import RevenueOrderChart from "../components/charts/RevenueOrderChart";
+import CustomerAOVChart from "../components/charts/CustomerAOVChart";
+import TrafficSources from "../components/charts/TrafficSources";
+import SalesForecast from "../components/charts/SalesForecast";
+import SalesByCategory from "../components/charts/SalesByCategory";
+import InventoryHealthChart from "../components/charts/InventoryHealthChart";
+import RetentionChart from "../components/charts/RetentionChart";
+import RFMMatrix from "../components/charts/RFMMatrix";
+import CohortMatrix from "../components/charts/CohortMatrix";
 
-import { Button, Toggle, Breadcrumb, Icon, DatePicker, Section } from "./ui";
-import TopProductsChart from "./charts/TopProductsChart";
-import OrderStatusChart from "./charts/OrderStatusChart";
-import FulfillmentLatencyChart from "./charts/FulfillmentLatencyChart";
-import ConversionFunnel from "./charts/ConversionFunnel";
-import PaymentMethodChart from "./charts/PaymentMethodChart";
-import TransactionStatusChart from "./charts/TransactionStatusChart";
-import ShippingMethodChart from "./charts/ShippingMethodChart";
-import PaymentHealthChart from "./charts/PaymentHealthChart";
+import { Section } from "../components/ui";
+import TopProductsChart from "../components/charts/TopProductsChart";
+import OrderStatusChart from "../components/charts/OrderStatusChart";
+import FulfillmentLatencyChart from "../components/charts/FulfillmentLatencyChart";
+import ConversionFunnel from "../components/charts/ConversionFunnel";
+import PaymentMethodChart from "../components/charts/PaymentMethodChart";
+import TransactionStatusChart from "../components/charts/TransactionStatusChart";
+import ShippingMethodChart from "../components/charts/ShippingMethodChart";
+import PaymentHealthChart from "../components/charts/PaymentHealthChart";
+import PageHeaderActions from "../components/PageHeaderActions";
 
-interface DashboardProps {
-  isSidebarCollapsed: boolean;
-  currentView: string;
-}
 
-const Dashboard: React.FC<DashboardProps> = ({ isSidebarCollapsed, currentView }) => {
+
+const Dashboard: React.FC = () => {
   const [compareEnabled, setCompareEnabled] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [dateRange, setDateRange] = useState({
+    start: new Date(new Date().setDate(new Date().getDate() - 7)),
+    end: new Date()
+  });
 
   const renderContent = () => {
     return (
@@ -128,43 +129,16 @@ const Dashboard: React.FC<DashboardProps> = ({ isSidebarCollapsed, currentView }
 
   return (
     <main
-      className={`pt-24 pb-12 px-8 min-h-screen transition-all duration-300 ease-in-out ${isSidebarCollapsed ? "ml-20" : "ml-64"
-        }`}
+      className={`px-8 pb-3 pt-3 transition-all duration-300 ease-in-out`}
     >
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
-        <div className="flex flex-col gap-2">
-          <Breadcrumb
-            items={[
-              { label: "Dashboard", href: "/" },
-              { label: currentView.charAt(0).toUpperCase() + currentView.slice(1), active: true },
-            ]}
-          />
-          <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 capitalize">
-            {currentView}
-          </h2>
-        </div>
-        <div className="flex flex-wrap items-center gap-4 bg-white p-2 rounded-2xl shadow-sm border border-gray-100">
-          <DatePicker
-            selected={selectedDate}
-            onChange={(date) => setSelectedDate(date)}
-            className="border-r border-gray-100 pr-4"
-          />
-          <div className="flex items-center gap-3 px-3 py-2">
-            <Toggle
-              label="Compare"
-              checked={compareEnabled}
-              onChange={(e) => setCompareEnabled(e.target.checked)}
-            />
-          </div>
-          <Button
-            variant="primary"
-            className="text-[12px]"
-            icon={<Icon name="download" size="md" />}
-          >
-            Export
-          </Button>
-        </div>
-      </div>
+      <PageHeaderActions
+        dateRange={dateRange}
+        onDateRangeChange={setDateRange}
+        compareEnabled={compareEnabled}
+        onCompareToggle={setCompareEnabled}
+        onExport={() => console.log("Exporting data...")}
+        onRefresh={() => console.log("Refreshing...")}
+      />
 
       {renderContent()}
     </main>

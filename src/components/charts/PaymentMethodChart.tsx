@@ -114,7 +114,7 @@ const PaymentMethodChart: React.FC = () => {
   };
 
   return (
-    <Card className="col-span-12 lg:col-span-4 row-span-2 flex flex-col border-2 border-gray-200 shadow-xl" hoverable={false}>
+    <Card className="col-span-12 lg:col-span-4 row-span-2 flex flex-col border-2 border-gray-100 shadow-xl overflow-hidden" hoverable={false}>
       <ChartHeader
         title="Payment Pulse"
         actions={
@@ -134,7 +134,6 @@ const PaymentMethodChart: React.FC = () => {
         <div className="grid grid-cols-1 gap-2">
           {data.labels?.map((label, i) => {
             const isHidden = hiddenIndices.includes(i);
-            const bgColor = (data.datasets[0].backgroundColor as string[])[i];
             const borderColor = (data.datasets[0].borderColor as string[])[i];
             const value = data.datasets[0].data[i];
 

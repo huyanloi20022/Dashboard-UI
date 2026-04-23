@@ -16,18 +16,18 @@ const PaymentHealthChart: React.FC = () => {
       {
         label: "Success Volume",
         data: [65, 59, 80, 81, 56, 55, 40, 72, 88, 92, 105, 98, 85, 110, 124],
-        borderColor: "#7C3AED", // Purple-600
+        borderColor: "#6366f1", // Indigo-500
         backgroundColor: (context: ScriptableContext<"line">) => {
           const ctx = context.chart.ctx;
           const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-          gradient.addColorStop(0, "rgba(124, 58, 237, 0.2)");
-          gradient.addColorStop(1, "rgba(124, 58, 237, 0)");
+          gradient.addColorStop(0, "rgba(99, 102, 241, 0.2)");
+          gradient.addColorStop(1, "rgba(99, 102, 241, 0)");
           return gradient;
         },
         borderWidth: 3,
         pointRadius: 0,
         pointHoverRadius: 6,
-        pointHoverBackgroundColor: "#7C3AED",
+        pointHoverBackgroundColor: "#6366f1",
         pointHoverBorderColor: "#fff",
         pointHoverBorderWidth: 2,
         fill: true,
@@ -36,11 +36,11 @@ const PaymentHealthChart: React.FC = () => {
       {
         label: "Refunds",
         data: [4, 6, 3, 5, 2, 7, 4, 3, 5, 8, 4, 2, 6, 3, 5],
-        borderColor: "#F59E0B", // Amber-500
+        borderColor: "#f59e0b", // Amber-500
         backgroundColor: (context: ScriptableContext<"line">) => {
           const ctx = context.chart.ctx;
           const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-          gradient.addColorStop(0, "rgba(245, 158, 11, 0.15)");
+          gradient.addColorStop(0, "rgba(245, 158, 11, 0.1)");
           gradient.addColorStop(1, "rgba(245, 158, 11, 0)");
           return gradient;
         },
@@ -72,6 +72,7 @@ const PaymentHealthChart: React.FC = () => {
         padding: 12,
         cornerRadius: 8,
         displayColors: true,
+        usePointStyle: true,
         callbacks: {
           label: (context) => {
             const label = context.dataset.label || "";
@@ -111,22 +112,30 @@ const PaymentHealthChart: React.FC = () => {
   };
 
   return (
-    <Card className="col-span-8 border-2 border-gray-200 shadow-lg overflow-hidden" hoverable={false}>
-      <div className="p-6 pb-0 flex items-center justify-between">
+    <Card className="col-span-12 lg:col-span-8 border-2 border-gray-100 shadow-xl overflow-hidden" hoverable={false}>
+      <div className="p-6 pb-0 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <ChartHeader
           title="Payment Health Trend"
           subtitle="Real-time transaction volume & refund rate"
           mb="mb-0"
         />
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-purple-600 shadow-sm shadow-purple-200"></div>
-            <span className="text-xs font-bold text-gray-600">Success</span>
+        <div className="flex items-center gap-4">
+          <div className="flex bg-gray-100/50 p-1 rounded-lg">
+            {['D', 'W', 'M'].map((range) => (
+              <button
+                key={range}
+                className={`w-8 h-7 flex items-center justify-center text-[10px] font-black uppercase tracking-widest rounded-md transition-all ${
+                  range === 'W' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'
+                }`}
+              >
+                {range}
+              </button>
+            ))}
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-amber-500 shadow-sm shadow-amber-200 border-2 border-dashed border-white"></div>
-            <span className="text-xs font-bold text-gray-600">Refunds</span>
-          </div>
+          <div className="h-6 w-px bg-gray-200"></div>
+          <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-slate-400 hover:text-indigo-600" title="Refresh Data">
+            <Icon name="refresh" size="sm" />
+          </button>
         </div>
       </div>
 
@@ -134,21 +143,21 @@ const PaymentHealthChart: React.FC = () => {
         <Line data={data} options={options} />
       </div>
 
-      <div className="px-6 py-4 bg-gray-50/50 border-t border-gray-100 flex items-center justify-between">
-        <div className="flex items-center gap-4">
+      <div className="px-6 py-4 bg-gray-50/10 border-t border-gray-100 flex items-center justify-between">
+        <div className="flex items-center gap-6">
           <div className="flex flex-col">
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Success Rate</span>
-            <span className="text-lg font-black text-gray-900">98.4%</span>
+            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Success Rate</span>
+            <span className="text-lg font-black text-slate-900 leading-none">98.4%</span>
           </div>
           <div className="h-8 w-[1px] bg-gray-200"></div>
           <div className="flex flex-col">
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Avg daily items</span>
-            <span className="text-lg font-black text-gray-900">84</span>
+            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Avg Daily</span>
+            <span className="text-lg font-black text-slate-900 leading-none">84</span>
           </div>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-purple-600 hover:bg-purple-50 hover:border-purple-200 transition-all shadow-sm">
+        <button className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-100 rounded-xl text-[11px] font-bold text-indigo-600 hover:bg-indigo-50 hover:border-indigo-100 transition-all shadow-sm">
           Detailed Report
-          <Icon name="arrow_forward" size="sm" />
+          <Icon name="arrow_forward" size="xs" />
         </button>
       </div>
     </Card>

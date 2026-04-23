@@ -88,15 +88,24 @@ const TransactionStatusChart: React.FC = () => {
   };
 
   return (
-    <Card className="col-span-12 lg:col-span-8 border-2 border-gray-200 shadow-xl overflow-hidden" hoverable={false}>
+    <Card className="col-span-12 lg:col-span-8 border-2 border-gray-100 shadow-xl overflow-hidden" hoverable={false}>
       <div className="p-6 pb-0">
         <ChartHeader
           title="Operational Health"
           subtitle="Real-time transaction status breakdown"
           actions={
-            <div className="flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full border border-emerald-100">
-              <Icon name="check_circle" size="xs" />
-              <span className="text-[10px] font-bold uppercase tracking-wider">98.2% Reliable</span>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full border border-emerald-100">
+                <Icon name="check_circle" size="xs" />
+                <span className="text-[10px] font-black uppercase tracking-widest">98.2% Reliable</span>
+              </div>
+              <div className="h-4 w-px bg-gray-200"></div>
+              <button className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors text-slate-400 hover:text-indigo-600" title="Refresh Live Data">
+                <Icon name="refresh" size="sm" />
+              </button>
+              <button className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors text-slate-400 hover:text-indigo-600" title="View Error Logs">
+                <Icon name="terminal" size="sm" />
+              </button>
             </div>
           }
         />
@@ -106,16 +115,16 @@ const TransactionStatusChart: React.FC = () => {
         <Bar data={statusData} options={options} />
       </div>
 
-      <div className="grid grid-cols-4 gap-0 border-t border-gray-100 bg-gray-50/50">
+      <div className="grid grid-cols-4 gap-0 border-t border-gray-100 bg-gray-50/20">
         {[
-          { label: "Success", val: "1,240", color: "text-emerald-600" },
+          { label: "Success", val: "1,240", color: "text-emerald-500" },
           { label: "Pending", val: "120", color: "text-amber-500" },
-          { label: "Failed", val: "45", color: "text-red-500" },
+          { label: "Failed", val: "45", color: "text-rose-500" },
           { label: "Refund", val: "12", color: "text-indigo-500" },
         ].map((item, i) => (
           <div key={item.label} className={`p-4 flex flex-col items-center justify-center ${i < 3 ? "border-r border-gray-100" : ""}`}>
-            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-tighter mb-0.5">{item.label}</span>
-            <span className={`text-sm font-black ${item.color}`}>{item.val}</span>
+            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">{item.label}</span>
+            <span className={`text-[15px] font-black ${item.color}`}>{item.val}</span>
           </div>
         ))}
       </div>

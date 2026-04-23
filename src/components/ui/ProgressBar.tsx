@@ -1,6 +1,6 @@
 import React from "react";
 
-type ProgressColor = "purple" | "cyan" | "pink" | "green" | "gray";
+type ProgressColor = "purple" | "cyan" | "pink" | "green" | "gray" | "indigo" | "emerald" | "amber" | "rose";
 
 interface ProgressBarProps {
   value: number; // 0-100
@@ -17,7 +17,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
   label,
   showValue = false,
   rightLabel,
-  color = "purple",
+  color = "indigo",
   size = "md",
   className = "",
 }) => {
@@ -27,6 +27,10 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
     pink: "bg-pink-500",
     green: "bg-green-500",
     gray: "bg-gray-500",
+    indigo: "bg-indigo-500",
+    emerald: "bg-emerald-500",
+    amber: "bg-amber-500",
+    rose: "bg-rose-500",
   };
 
   const sizeMap = {

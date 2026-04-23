@@ -2,19 +2,19 @@ import { Card, ProgressBar, StatBox, ChartHeader } from "../ui";
 
 const SalesByCategory = () => {
   return (
-    <Card className="col-span-8 grid-0 flex flex-col justify-center" hoverable={false}>
+    <Card className="col-span-12 lg:col-span-8 border-2 border-gray-100 shadow-xl overflow-hidden" hoverable={false}>
       <ChartHeader
-        title="Sales by Category"
-        subtitle="Revenue distribution by product category"
+        title="Category Insights"
+        subtitle="Revenue distribution by product segment"
       />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        <div className="space-y-4">
+      <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div className="space-y-5">
           <ProgressBar
             value={27}
             label="Electronics"
             showValue
             rightLabel="$12,450"
-            color="purple"
+            color="indigo"
           />
 
           <ProgressBar
@@ -30,7 +30,7 @@ const SalesByCategory = () => {
             label="Home & Garden"
             showValue
             rightLabel="$8,920"
-            color="pink"
+            color="emerald"
           />
 
           <ProgressBar
@@ -38,7 +38,7 @@ const SalesByCategory = () => {
             label="Fashion"
             showValue
             rightLabel="$7,650"
-            color="purple"
+            color="amber"
           />
 
           <ProgressBar
@@ -46,27 +46,27 @@ const SalesByCategory = () => {
             label="Sports"
             showValue
             rightLabel="$5,900"
-            color="cyan"
+            color="rose"
           />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <StatBox
-            label="Top Cat"
+            label="TOP CATEGORY"
             value="Electronics"
             description="27% of total revenue"
           />
           <StatBox
-            label="Growth"
+            label="MONTHLY GROWTH"
             value="+14.2%"
             description="Vs previous month"
           />
           <StatBox
-            label="Avg Margin"
+            label="AVERAGE MARGIN"
             value="32.8%"
             description="All categories"
           />
           <StatBox
-            label="Forecast"
+            label="YEARLY FORECAST"
             value="$52k"
             description="Expected Q4 end"
             highlighted

@@ -7,32 +7,21 @@ const CustomerAOVChart = () => {
   const aovData = [45, 52, 48, 60, 108, 98]; // Average Order Value
 
   return (
-    <Card className="col-span-12 lg:col-span-6 border-2 border-gray-200 shadow-xl" hoverable={false}>
+    <Card className="col-span-12 lg:col-span-6 border-2 border-gray-100 shadow-xl" hoverable={false}>
       <ChartHeader
         title="Customers vs AOV"
         subtitle="Growth analysis"
-        actions={
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-blue-800"></span>
-              <span className="text-xs font-semibold text-gray-600">Customer</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-green-700"></span>
-              <span className="text-xs font-semibold text-gray-400">AOV</span>
-            </div>
-          </div>
-        }
+        actions={null}
       />
-      <div className="h-[300px] w-full">
+      <div className="h-[300px] w-full p-4">
         <DoubleLineChart
           labels={labels}
           data1={customerData}
           data2={aovData}
           label1="Customers"
           label2="Avg Order Value"
-          color1="blue"
-          color2="green"
+          color1="#6366f1"
+          color2="#10b981"
           unit=""
         />
       </div>

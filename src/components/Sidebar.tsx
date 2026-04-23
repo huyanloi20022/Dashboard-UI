@@ -1,23 +1,13 @@
+import { NavLink } from "react-router-dom";
 import { Icon, Button, IconButton } from "./ui";
+import { navigationItems } from "../data/navigation";
 
 interface SidebarProps {
   isCollapsed: boolean;
   onToggle: () => void;
-  currentView: string;
-  onViewChange: (view: string) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, currentView, onViewChange }) => {
-  const navItems = [
-    { name: "dashboard", label: "Dashboard", view: "dashboard" },
-    { name: "analytics", label: "Analytics", view: "analytics" },
-    { name: "payments", label: "Payment", view: "payments" },
-    { name: "group", label: "Customers", view: "customers" },
-    { name: "inventory_2", label: "Product", view: "products" },
-    { name: "receipt_long", label: "Invoice", view: "invoice" },
-    { name: "mail", label: "Messages", view: "messages" },
-    { name: "smart_toy", label: "Automation", view: "automation" },
-  ];
+const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
 
   return (
     <aside
@@ -51,43 +41,43 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, currentView, o
       </div>
 
       <nav className="flex-1 space-y-0.5 xl:space-y-1 overflow-y-auto scrollbar-hide">
-        {navItems.map((item) => {
-          const isActive = currentView === item.view;
-          return (
-            <button
-              key={item.view}
-              onClick={() => onViewChange(item.view)}
-              className={`w-full flex items-center gap-3 px-6 py-2 xl:py-3 transition-all active:scale-95 duration-150 ease-in-out whitespace-nowrap border-r-4 ${isActive
+        {navigationItems.map((item) => (
+          <NavLink
+            key={item.name}
+            to={item.path}
+            className={({ isActive }) =>
+              `w-full flex items-center gap-3 px-6 py-2 xl:py-3 transition-all active:scale-95 duration-150 ease-in-out whitespace-nowrap border-r-4 ${isActive
                 ? "bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 font-semibold border-purple-600"
                 : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 border-transparent"
-                }`}
-            >
-              <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
-                <Icon name={item.name} filled={isActive} />
-              </div>
-              <span
-                className={`transition-opacity duration-300 ${isCollapsed ? "opacity-0 invisible" : "opacity-100"
-                  }`}
-              >
-                {item.label}
-              </span>
-            </button>
-          );
-        })}
+              }`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <div className="w-8 h-8 flex items-center justify-center flex-shrink-0">
+                  <Icon name={item.icon} filled={isActive} />
+                </div>
+                <span
+                  className={`transition-opacity duration-300 ${isCollapsed ? "opacity-0 invisible" : "opacity-100"
+                    }`}
+                >
+                  {item.label}
+                </span>
+              </>
+            )}
+          </NavLink>
+        ))}
       </nav>
 
       <div className="mt-auto px-6 py-2 xl:py-4 space-y-2 xl:space-y-4">
-        <div
-          className={`transition-all duration-300 overflow-hidden ${isCollapsed ? "h-0 opacity-0 mb-0" : "h-auto opacity-100"
-            }`}
-        >
-          <div className="p-3 xl:p-4 rounded-xl bg-purple-600 text-white text-center whitespace-nowrap">
+        {!isCollapsed && (
+          <div className="p-3 xl:p-4 rounded-xl bg-purple-600 text-white text-center whitespace-nowrap overflow-hidden transition-all duration-300">
             <p className="text-[10px] xl:text-xs font-medium mb-1 xl:mb-2">Grow your business</p>
             <Button variant="secondary" size="sm" fullWidth className="text-[10px] xl:text-xs">
               Upgrade Plan
             </Button>
           </div>
-        </div>
+        )}
 
         {isCollapsed && (
           <div className="flex justify-center -ml-1 py-2">
@@ -97,7 +87,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle, currentView, o
             />
           </div>
         )}
-
       </div>
     </aside>
   );

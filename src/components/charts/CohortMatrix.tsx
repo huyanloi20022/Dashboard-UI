@@ -11,12 +11,12 @@ const CohortMatrix = () => {
   ];
 
   const getColorClass = (value: number) => {
-    if (value === 100) return "bg-purple-600 text-white";
-    if (value >= 40) return "bg-purple-500/80 text-white";
-    if (value >= 35) return "bg-purple-400/60 text-white";
-    if (value >= 30) return "bg-purple-300/40 text-purple-900";
-    if (value >= 25) return "bg-purple-200/30 text-purple-800";
-    return "bg-purple-100/20 text-purple-700";
+    if (value === 100) return "bg-indigo-600 text-white shadow-sm";
+    if (value >= 40) return "bg-indigo-500/80 text-white shadow-sm";
+    if (value >= 35) return "bg-indigo-400/60 text-white";
+    if (value >= 30) return "bg-indigo-300/40 text-indigo-900";
+    if (value >= 25) return "bg-indigo-200/30 text-indigo-800";
+    return "bg-indigo-50/50 text-indigo-700";
   };
 
   return (
@@ -24,7 +24,19 @@ const CohortMatrix = () => {
       <ChartHeader
         title="Retention Cohorts"
         subtitle="User retention by acquisition month"
-        actions={<div className="text-[10px] font-bold text-gray-400">Values in %</div>}
+        actions={
+          <div className="flex items-center gap-3">
+            <select className="bg-gray-50 border border-gray-100 text-[10px] font-black text-slate-600 rounded-lg px-2 py-1 outline-none focus:ring-2 focus:ring-indigo-100 transition-all uppercase tracking-tighter">
+              <option>Retention %</option>
+              <option>Revenue $</option>
+              <option>Order Frequency</option>
+            </select>
+            <div className="h-4 w-px bg-gray-200"></div>
+            <button className="text-slate-400 hover:text-indigo-600 transition-colors">
+              <span className="material-symbols-rounded text-lg">settings</span>
+            </button>
+          </div>
+        }
       />
 
       <table className="w-full text-left border-separate border-spacing-1">

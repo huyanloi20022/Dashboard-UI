@@ -1,6 +1,6 @@
 import React from "react";
 
-type ButtonVariant = "primary" | "secondary" | "link";
+type ButtonVariant = "primary" | "secondary" | "link" | "ghost";
 type ButtonSize = "sm" | "md" | "lg";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -35,6 +35,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       secondary:
         "bg-white text-purple-600 hover:bg-purple-50 border border-gray-200 disabled:opacity-50",
       link: "text-purple-600 hover:underline disabled:opacity-50",
+      ghost: "bg-transparent text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800 disabled:opacity-50",
     };
 
     const sizes = {

@@ -1,33 +1,42 @@
+import { useRef, useState } from "react";
+import "chart.js/auto";
 import { Bar } from "react-chartjs-2";
-import { Card, ChartHeader } from "../ui";
+import { Card, ChartHeader, Icon } from "../ui";
+import { Chart as ChartJS } from "chart.js";
 import type { ChartOptions, ChartData } from "chart.js";
 
 const RetentionChart = () => {
+  const chartRef = useRef<ChartJS<"bar">>(null);
+  const [hiddenIndices, setHiddenIndices] = useState<number[]>([]);
+
   const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
   const data: ChartData<"bar"> = {
     labels,
     datasets: [
       {
-        label: "New Customers",
+        label: "New",
         data: [450, 520, 480, 610, 590, 650],
-        backgroundColor: "#7C3AED", // Purple-600
-        borderRadius: 4,
+        backgroundColor: "#6366f1", // Indigo-500
+        borderRadius: 8,
         stack: "Stack 0",
+        barThickness: 28,
       },
       {
-        label: "Returning (2nd)",
+        label: "Returning",
         data: [120, 150, 180, 210, 240, 290],
-        backgroundColor: "#06B6D4", // Cyan-500
-        borderRadius: 4,
+        backgroundColor: "#06b6d4", // Cyan-500
+        borderRadius: 8,
         stack: "Stack 0",
+        barThickness: 28,
       },
       {
-        label: "Loyal (3rd+)",
+        label: "Loyal",
         data: [40, 60, 90, 110, 130, 160],
-        backgroundColor: "#EC4899", // Pink-500
-        borderRadius: 4,
+        backgroundColor: "#10b981", // Emerald-500
+        borderRadius: 8,
         stack: "Stack 0",
+        barThickness: 28,
       },
     ],
   };
@@ -37,17 +46,7 @@ const RetentionChart = () => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: "top" as const,
-        align: "end" as const,
-        labels: {
-          boxWidth: 8,
-          usePointStyle: true,
-          pointStyle: "circle",
-          font: {
-            size: 11,
-            weight: 600,
-          },
-        },
+        display: false,
       },
       tooltip: {
         mode: "index",
@@ -60,66 +59,101 @@ const RetentionChart = () => {
     scales: {
       x: {
         stacked: true,
-        grid: {
-          display: false,
-        },
-        ticks: {
-          font: {
-            size: 11,
-            weight: 600,
-          },
-          color: "#9ca3af",
-        },
+        grid: { display: false },
+        ticks: { font: { size: 10, weight: 600 }, color: "#9ca3af" },
+        border: { display: false }
       },
       y: {
         stacked: true,
-        grid: {
-          color: "#f3f4f6",
-        },
-        border: {
-          display: false,
-        },
-        ticks: {
-          font: {
-            size: 11,
-            weight: 600,
-          },
-          color: "#9ca3af",
-          maxTicksLimit: 5,
-        },
+        grid: { color: "rgba(0, 0, 0, 0.03)" },
+        border: { display: false },
+        ticks: { font: { size: 10, weight: 600 }, color: "#9ca3af", maxTicksLimit: 5, padding: 8 },
       },
     },
   };
 
+  const toggleDataset = (index: number) => {
+    const chart = chartRef.current;
+    if (chart) {
+      if (chart.isDatasetVisible(index)) {
+        chart.hide(index);
+        setHiddenIndices((prev) => [...prev, index]);
+      } else {
+        chart.show(index);
+        setHiddenIndices((prev) => prev.filter((i) => i !== index));
+      }
+    }
+  };
+
   return (
-    <Card className="col-span-12 lg:col-span-6 bg-white border-2 border-gray-200" hoverable={false}>
+    <Card className="col-span-12 lg:col-span-6 border-2 border-gray-100 shadow-xl overflow-hidden" hoverable={false}>
       <ChartHeader
-        title="Customer Retention"
-        subtitle="New vs. Returning over 6 months"
+        title="Retention Segments"
+        subtitle="New vs Returning vs Loyal customer mix"
         actions={
-          <div className="flex items-center gap-2 px-3 py-1 bg-purple-50 text-purple-600 rounded-full text-[10px] font-bold uppercase tracking-wider">
-            +24% Growth
+          <div className="flex items-center gap-3">
+            <div className="flex bg-gray-100/50 p-1 rounded-lg">
+              {['6M', '12M', 'ALL'].map((range) => (
+                <button
+                  key={range}
+                  className={`px-2.5 py-1 text-[9px] font-black uppercase tracking-widest rounded-md transition-all ${range === '6M' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'
+                    }`}
+                >
+                  {range}
+                </button>
+              ))}
+            </div>
+            <div className="h-4 w-px bg-gray-200"></div>
+            <button className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors text-slate-400 hover:text-indigo-600" title="Settings">
+              <Icon name="settings" size="sm" />
+            </button>
           </div>
         }
       />
 
-      <div className="h-[300px] w-full">
-        <Bar data={data} options={options} />
+      <div className="px-6 py-4 flex flex-wrap gap-2">
+        {data.datasets.map((ds, i) => {
+          const isHidden = hiddenIndices.includes(i);
+          return (
+            <button
+              key={ds.label}
+              onClick={() => toggleDataset(i)}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-300 ${isHidden
+                  ? "bg-gray-50 border-gray-100 opacity-40 grayscale shadow-inner"
+                  : "bg-white border-gray-100 hover:border-gray-200 hover:shadow-md"
+                }`}
+            >
+              <div
+                className="w-2.5 h-2.5 rounded-full shadow-sm"
+                style={{ backgroundColor: ds.backgroundColor as string }}
+              ></div>
+              <span className={`text-[10px] font-black uppercase tracking-tighter ${isHidden ? "text-slate-400" : "text-slate-700"
+                }`}>
+                {ds.label}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
-      <div className="mt-8 pt-6 border-t border-gray-50 flex items-center justify-between">
+      <div className="h-[240px] w-full p-6 pt-0">
+        <Bar ref={chartRef} data={data} options={options} />
+      </div>
+
+      <div className="p-6 bg-gray-50/10 border-t border-gray-100 flex items-center justify-between">
         <div className="flex gap-8">
-          <div className="flex flex-col gap-1">
-            <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Avg Retention</span>
-            <span className="text-sm font-bold text-gray-900">32.4%</span>
+          <div className="flex flex-col">
+            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Retention Rate</span>
+            <span className="text-lg font-black text-slate-900 leading-none">32.4%</span>
           </div>
-          <div className="flex flex-col gap-1">
-            <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">LTV Average</span>
-            <span className="text-sm font-bold text-gray-900">$1,240</span>
+          <div className="flex flex-col">
+            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-0.5">Avg LTV</span>
+            <span className="text-lg font-black text-slate-900 leading-none">$1,240</span>
           </div>
         </div>
-        <button className="text-xs font-bold text-purple-600 hover:text-purple-700 transition-colors">
-          View full report
+        <button className="flex items-center gap-2 px-4 py-2 bg-indigo-50 border border-indigo-100 rounded-xl text-[11px] font-bold text-indigo-600 hover:bg-indigo-100 transition-all shadow-sm uppercase tracking-wider">
+          Deep Dive
+          <Icon name="analytics" size="xs" />
         </button>
       </div>
     </Card>

@@ -1,14 +1,10 @@
 import { Search, IconButton, Avatar, Icon, Badge } from "./ui";
 
-interface HeaderProps {
-  isSidebarCollapsed: boolean;
-}
 
-const Header: React.FC<HeaderProps> = ({ isSidebarCollapsed }) => {
+const Header: React.FC = () => {
   return (
     <header
-      className={`fixed top-0 right-0 h-16 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200 flex justify-between items-center px-8 font-['Inter'] text-sm transition-all duration-300 ease-in-out ${isSidebarCollapsed ? "w-[calc(100%-5rem)]" : "w-[calc(100%-16rem)]"
-        }`}
+      className={`sticky top-0 h-16 z-40 bg-white/80 backdrop-blur-md border-b border-gray-200 flex justify-between items-center px-8 font-['Inter'] text-sm transition-all duration-300 ease-in-out w-full`}
     >
       <Search
         placeholder="Search analytics..."

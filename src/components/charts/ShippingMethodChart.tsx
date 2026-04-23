@@ -15,28 +15,28 @@ const shippingMethods: ShippingMethod[] = [
     count: 450,
     avgTime: "3-5 Days",
     icon: "local_shipping",
-    color: "#8B5CF6", // Violet
+    color: "#6366f1", // Indigo
   },
   {
     name: "Express Delivery",
     count: 320,
     avgTime: "1-2 Days",
     icon: "bolt",
-    color: "#06B6D4", // Cyan
+    color: "#06b6d4", // Cyan
   },
   {
     name: "Next Day Air",
     count: 150,
     avgTime: "24 Hours",
     icon: "flight_takeoff",
-    color: "#EC4899", // Pink
+    color: "#f59e0b", // Amber
   },
   {
     name: "Store Pick-up",
     count: 80,
     avgTime: "Instant",
     icon: "storefront",
-    color: "#10B981", // Emerald
+    color: "#10b981", // Emerald
   },
 ];
 
@@ -44,47 +44,51 @@ const ShippingMethodChart: React.FC = () => {
   const maxCount = shippingMethods[0].count;
 
   return (
-    <Card className="col-span-12 lg:col-span-4 p-0 bg-white border-2 border-gray-100 font-['Inter'] shadow-sm overflow-hidden flex flex-col">
+    <Card className="col-span-12 lg:col-span-4 p-0 border-2 border-gray-100 shadow-xl overflow-hidden flex flex-col" hoverable={false}>
       <ChartHeader
         title="Shipping Mix"
         subtitle="Distribution by tier"
-        className="p-6 border-b border-gray-50 bg-gray-50/30"
+        className="p-6 border-b border-gray-100 bg-gray-50/10"
         mb="mb-0"
-        actions={<Icon name="local_shipping" className="text-purple-500" />}
+        actions={
+          <div className="p-1.5 bg-indigo-50 text-indigo-600 rounded-lg">
+            <Icon name="local_shipping" size="sm" />
+          </div>
+        }
       />
 
       <div className="flex-1 divide-y divide-gray-50">
         {shippingMethods.map((method, _) => (
-          <div key={method.name} className="p-4 hover:bg-gray-50/50 transition-colors">
-            <div className="flex items-center justify-between mb-2">
+          <div key={method.name} className="p-5 hover:bg-gray-50/30 transition-colors group">
+            <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-3">
                 <div
-                  className="w-8 h-8 rounded-xl flex items-center justify-center text-white shadow-sm"
+                  className="w-9 h-9 rounded-xl flex items-center justify-center text-white shadow-lg transition-transform group-hover:scale-110"
                   style={{ backgroundColor: method.color }}
                 >
                   <Icon name={method.icon} size="sm" />
                 </div>
                 <div>
-                  <h5 className="text-xs font-bold text-gray-900">{method.name}</h5>
-                  <span className="text-[10px] font-medium text-gray-400">{method.avgTime}</span>
+                  <h5 className="text-[11px] font-black text-slate-900 leading-tight">{method.name}</h5>
+                  <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">{method.avgTime}</span>
                 </div>
               </div>
               <div className="text-right">
-                <span className="text-xs font-black text-gray-900">{method.count}</span>
-                <span className="block text-[9px] font-bold text-gray-400 uppercase tracking-tighter">Orders</span>
+                <span className="text-sm font-black text-slate-900">{method.count}</span>
+                <span className="block text-[8px] font-black text-slate-400 uppercase tracking-tighter">Orders</span>
               </div>
             </div>
             <ProgressBar
               value={(method.count / maxCount) * 100}
-              color="purple"
+              color="indigo"
               className="h-1.5 rounded-full"
             />
           </div>
         ))}
       </div>
 
-      <div className="p-4 bg-gray-50/50 border-t border-gray-50 mt-auto">
-        <button className="w-full py-2 text-[11px] font-bold text-purple-600 hover:text-purple-700 transition-colors flex items-center justify-center gap-2">
+      <div className="p-4 bg-gray-50/10 border-t border-gray-100 mt-auto">
+        <button className="w-full py-2 text-[10px] font-black text-indigo-600 hover:text-indigo-700 transition-colors flex items-center justify-center gap-2 uppercase tracking-widest">
           Manage Carriers
           <Icon name="settings" size="xs" />
         </button>
