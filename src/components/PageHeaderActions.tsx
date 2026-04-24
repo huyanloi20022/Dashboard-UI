@@ -34,33 +34,33 @@ const PageHeaderActions: React.FC<PageHeaderActionsProps> = ({
           range={dateRange}
           onChange={onDateRangeChange}
         />
-        <div className="h-8 w-px bg-gray-100 mx-2 hidden md:block" />
-        <div className="flex items-center gap-3 px-3">
-          <Toggle
-            label="Compare"
-            checked={compareEnabled}
-            onChange={(e) => onCompareToggle(e.target.checked)}
-          />
-        </div>
+
       </div>
 
       {/* Right side: Secondary Actions */}
       <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3 px-3">
+          <Toggle
+            label="Mode"
+            checked={compareEnabled}
+            onChange={(e) => onCompareToggle(e.target.checked)}
+          />
+        </div>
         <div className="flex items-center gap-1 px-1 mr-2 border-r border-gray-100">
-          <IconButton 
-            icon={<Icon name="refresh" size="sm" />} 
+          <IconButton
+            icon={<Icon name="refresh" size="sm" />}
             onClick={onRefresh}
             className="text-gray-400 hover:text-purple-600 hover:bg-purple-50"
             title="Refresh Data"
           />
-          <IconButton 
-            icon={<Icon name="filter_list" size="sm" />} 
+          <IconButton
+            icon={<Icon name="filter_list" size="sm" />}
             onClick={onFilterClick}
             className="text-gray-400 hover:text-purple-600 hover:bg-purple-50"
             title="Advanced Filters"
           />
         </div>
-        
+
         <Button
           variant="primary"
           className="text-[11px] h-9 px-6 rounded-xl shadow-lg shadow-purple-200"

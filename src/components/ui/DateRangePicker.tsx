@@ -50,7 +50,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
 
   const handleDateSelect = (day: number) => {
     const selectedDate = new Date(viewDate.getFullYear(), viewDate.getMonth(), day);
-    
+
     if (selecting === "start") {
       onChange({ ...range, start: selectedDate });
       setSelecting("end");
@@ -63,6 +63,22 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
       setSelecting("start");
       setIsOpen(false);
     }
+  };
+
+  const handlePresetClick = (preset: { days?: number; special?: string }) => {
+    const end = new Date();
+    let start = new Date();
+    if (preset.special === "thisMonth") {
+      start = new Date(end.getFullYear(), end.getMonth(), 1);
+    } else if (preset.special === "lastMonth") {
+      start = new Date(end.getFullYear(), end.getMonth() - 1, 1);
+      end.setDate(0);
+    } else {
+      start.setDate(end.getDate() - (preset.days || 0));
+    }
+    onChange({ start, end });
+    setViewDate(start);
+    setIsOpen(false);
   };
 
   const isToday = (day: number) => {
@@ -109,7 +125,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
         style = "bg-purple-50 text-purple-700";
       }
       if (start || end) {
-        style = "bg-purple-600 text-white shadow-lg shadow-purple-200";
+        style = "bg-purple-600 text-white";
       }
 
       days.push(
@@ -120,7 +136,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
         >
           {d}
           {active && !start && !end && (
-             <div className="absolute inset-0 bg-purple-50 -z-10 rounded-none" />
+            <div className="absolute inset-0 bg-purple-50 -z-10 rounded-full" />
           )}
         </button>
       );
@@ -140,25 +156,24 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
     <div className={`relative ${className}`} ref={containerRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 px-4 py-2 bg-white border border-gray-100 rounded-full hover:border-purple-200 transition-all shadow-sm group whitespace-nowrap"
+        className="flex items-center gap-3 px-4 py-2 bg-white border-2 border-purple-200 rounded-full hover:border-purple-200 transition-all shadow-sm group whitespace-nowrap"
       >
         <Icon
           name="calendar_month"
           size="sm"
-          className="text-gray-400 group-hover:text-purple-500"
+          className="text-gray-900 group-hover:text-purple-500"
         />
-        <div className="flex items-center gap-2 text-sm font-semibold text-gray-700">
-          <span>{formatDate(range.start)}</span>
-          <span className="text-gray-300">—</span>
-          <span>{formatDate(range.end)}</span>
+        <div className="flex items-center gap-2 text-sm">
+          <span className="text-purple-600 font-bold">{formatDate(range.start)}</span>
+          <span className="text-gray-600 font-bold">—</span>
+          <span className="text-purple-600 font-bold">{formatDate(range.end)}</span>
         </div>
-        <Icon name="expand_more" size="xs" className={`text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+        <Icon name="expand_more" size="xs" className={`text-gray-600 transition-transform ${isOpen ? "rotate-180" : ""}`} />
       </button>
 
       {isOpen && (
-        <div className="absolute top-full mt-2 right-0 z-50 flex bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden animate-in fade-in zoom-in duration-200">
-          {/* Presets Sidebar */}
-          <div className="w-32 bg-gray-50/50 border-r border-gray-100 p-2 flex flex-col gap-1">
+        <div className="absolute top-full left-0 mt-2 z-100 flex bg-gray-200 rounded-2xl shadow-3xl border border-gray-100 overflow-hidden animate-in fade-in zoom-in duration-200">
+          <div className="w-32 bg-purple-500/50 border-r border-gray-100 p-2 flex flex-col gap-1">
             {[
               { label: "Today", days: 0 },
               { label: "Yesterday", days: 1 },
@@ -169,29 +184,14 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
             ].map((preset) => (
               <button
                 key={preset.label}
-                onClick={() => {
-                  const end = new Date();
-                  let start = new Date();
-                  if (preset.special === "thisMonth") {
-                    start = new Date(end.getFullYear(), end.getMonth(), 1);
-                  } else if (preset.special === "lastMonth") {
-                    start = new Date(end.getFullYear(), end.getMonth() - 1, 1);
-                    end.setDate(0); // Last day of previous month
-                  } else {
-                    start.setDate(end.getDate() - (preset.days || 0));
-                  }
-                  onChange({ start, end });
-                  setViewDate(start);
-                  setIsOpen(false);
-                }}
-                className="text-[10px] font-bold text-left px-3 py-2 rounded-lg text-gray-500 hover:bg-white hover:text-purple-600 hover:shadow-sm transition-all uppercase tracking-wider"
+                onClick={() => handlePresetClick(preset)}
+                className="text-[10px] font-bold text-left px-3 py-2 rounded-lg text-gray-900 hover:bg-white hover:text-purple-600 hover:shadow-sm transition-all uppercase tracking-wider"
               >
                 {preset.label}
               </button>
             ))}
           </div>
 
-          {/* Calendar Content */}
           <div className="p-4 w-72">
             <div className="flex items-center justify-between mb-4">
               <button
@@ -224,15 +224,15 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
             </div>
 
             <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
-               <span className="text-[10px] uppercase tracking-widest font-bold text-gray-400">
-                  {selecting === "start" ? "Select start" : "Select end"}
-               </span>
-               <button
+              <span className="text-[10px] uppercase tracking-widest font-bold text-gray-400">
+                {selecting === "start" ? "Select start" : "Select end"}
+              </span>
+              <button
                 onClick={() => setIsOpen(false)}
                 className="text-[11px] font-bold text-purple-600 hover:text-purple-700 uppercase tracking-widest"
-                >
+              >
                 Done
-                </button>
+              </button>
             </div>
           </div>
         </div>

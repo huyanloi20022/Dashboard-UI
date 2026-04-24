@@ -31,10 +31,6 @@ const CohortMatrix = () => {
               <option>Revenue $</option>
               <option>Order Frequency</option>
             </select>
-            <div className="h-4 w-px bg-gray-200"></div>
-            <button className="text-slate-400 hover:text-indigo-600 transition-colors">
-              <span className="material-symbols-rounded text-lg">settings</span>
-            </button>
           </div>
         }
       />
