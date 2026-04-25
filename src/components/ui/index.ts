@@ -13,6 +13,10 @@ export { default as Search } from "./Search";
 export { default as DatePicker } from "./DatePicker";
 export { default as Section } from "./Section";
 export { default as ChartHeader } from "./ChartHeader";
+export { default as TableToolbar } from "./TableToolbar";
+export { default as DataTable } from "./DataTable";
+export { default as Pagination } from "./Pagination";
+export { default as SlideOver } from "./SlideOver";
 
 // Export types
 export type { BreadcrumbItem } from "./Breadcrumb";

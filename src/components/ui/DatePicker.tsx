@@ -5,12 +5,16 @@ interface DatePickerProps {
   selected?: Date;
   onChange?: (date: Date) => void;
   className?: string;
+  triggerClassName?: string;
+  iconPosition?: "left" | "right";
 }
 
 const DatePicker: React.FC<DatePickerProps> = ({
   selected = new Date(),
   onChange,
   className = "",
+  triggerClassName = "",
+  iconPosition = "left",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [viewDate, setViewDate] = useState(new Date(selected));
@@ -100,18 +104,27 @@ const DatePicker: React.FC<DatePickerProps> = ({
     <div className={`relative ${className}`} ref={containerRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-100 rounded-full hover:border-purple-200 transition-all shadow-sm group"
+        className={`flex items-center gap-2 px-4 py-2 bg-white border border-gray-100 rounded-full hover:border-purple-200 transition-all shadow-sm group ${triggerClassName}`}
       >
-        <Icon
-          name="calendar_month"
-          size="sm"
-          className="text-gray-400 group-hover:text-purple-500"
-        />
+        {iconPosition === "left" && (
+          <Icon
+            name="calendar_month"
+            size="sm"
+            className="text-gray-400 group-hover:text-purple-500"
+          />
+        )}
         <span className="text-sm font-semibold text-gray-700">{formatDate(selected)}</span>
+        {iconPosition === "right" && (
+          <Icon
+            name="calendar_month"
+            size="sm"
+            className="text-gray-400 group-hover:text-purple-500"
+          />
+        )}
       </button>
 
       {isOpen && (
-        <div className="absolute top-full mt-2 left-0 z-50 p-4 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-100 w-72 animate-in fade-in zoom-in duration-200">
+        <div className="absolute top-full mt-2 left-0 z-50 p-4 bg-gray-300  rounded-2xl shadow-2xl border border-gray-100 w-72 animate-in fade-in zoom-in duration-200">
           <div className="flex items-center justify-between mb-4">
             <button
               onClick={handlePrevMonth}
