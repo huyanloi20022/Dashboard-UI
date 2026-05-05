@@ -172,7 +172,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 z-100 flex bg-gray-200 rounded-2xl shadow-3xl border border-gray-100 overflow-hidden animate-in fade-in zoom-in duration-200">
+        <div className="absolute top-full left-0 mt-2 z-100 flex bg-gray-100 rounded-2xl shadow-xl border border-gray-100 overflow-hidden animate-in fade-in zoom-in duration-200">
           <div className="w-32 bg-purple-500/50 border-r border-gray-100 p-2 flex flex-col gap-1">
             {[
               { label: "Today", days: 0 },

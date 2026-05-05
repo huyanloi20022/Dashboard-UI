@@ -43,27 +43,29 @@ const SlideOver: React.FC<SlideOverProps> = ({ isOpen, onClose, title, children 
       {/* Panel Container */}
       <div className="fixed inset-y-0 right-0 flex max-w-full pl-10">
         <div
-          className={`w-screen max-w-md bg-white shadow-2xl transition-transform duration-500 cubic-bezier(0.4, 0, 0.2, 1) ${
+          className={`w-screen max-w-md h-full bg-white shadow-2xl transition-transform duration-500 cubic-bezier(0.4, 0, 0.2, 1) ${
             isOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+          } overflow-hidden`}
         >
-          <div className="flex h-full flex-col overflow-y-auto">
+          <div className="flex h-full flex-col">
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-gray-100 px-6 py-6">
+            <div className="flex items-center justify-between border-b border-gray-100 px-6 py-5 bg-white shrink-0">
               <div>
-                <h2 className="text-xl font-bold text-gray-900 tracking-tight">{title}</h2>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mt-1">Payment Details</p>
+                <h2 className="text-xl font-black text-gray-900 tracking-tight">{title}</h2>
+                <p className="text-[10px] font-bold text-purple-500 uppercase tracking-widest mt-0.5">Quick Actions</p>
               </div>
               <IconButton
-                icon={<Icon name="close" size="md" />}
+                icon={<Icon name="close" size="sm" />}
                 onClick={onClose}
-                className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl"
+                className="text-gray-400 hover:text-gray-900 hover:bg-gray-50 rounded-xl p-2"
               />
             </div>
 
-            {/* Content */}
-            <div className="relative flex-1 p-6 animate-in fade-in slide-in-from-right-4 duration-700">
-              {children}
+            {/* Content Container - No Scrolling */}
+            <div className="flex-1 p-6 overflow-hidden bg-gray-50/30">
+              <div className="h-full animate-in fade-in duration-500">
+                {children}
+              </div>
             </div>
           </div>
         </div>

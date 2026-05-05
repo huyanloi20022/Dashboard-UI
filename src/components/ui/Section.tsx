@@ -3,7 +3,7 @@ import React from "react";
 interface SectionProps {
   title: string;
   children: React.ReactNode;
-  accentColor?: "purple" | "cyan" | "pink" | "green";
+  accentColor?: "purple" | "cyan" | "pink" | "green" | "orange" | "violet";
   className?: string;
 }
 
@@ -18,6 +18,8 @@ const Section: React.FC<SectionProps> = ({
     cyan: "bg-cyan-600",
     pink: "bg-pink-600",
     green: "bg-green-600",
+    orange: "bg-orange-600",
+    violet: "bg-violet-600",
   };
 
   return (

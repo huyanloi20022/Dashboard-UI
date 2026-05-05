@@ -25,6 +25,7 @@ interface DataTableProps<T> {
   onPageChange?: (page: number) => void;
   totalItems?: number;
   itemsPerPage?: number;
+  showingLabel?: string;
 }
 
 const DataTable = <T extends { id?: string | number }>({
@@ -42,6 +43,7 @@ const DataTable = <T extends { id?: string | number }>({
   onPageChange,
   totalItems,
   itemsPerPage,
+  showingLabel,
 }: DataTableProps<T>) => {
   const [selectedIds, setSelectedIds] = useState<Set<string | number>>(new Set());
 
@@ -173,10 +175,11 @@ const DataTable = <T extends { id?: string | number }>({
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
-            onPageChange={onPageChange || (() => {})}
+            onPageChange={onPageChange || (() => { })}
             totalItems={totalItems || 0}
             itemsPerPage={itemsPerPage || 10}
-            className="!border-none !shadow-none !rounded-none py-6 px-7"
+            showingLabel={showingLabel}
+            className="border-none shadow-none rounded-none py-6 px-7"
           />
         </div>
       )}

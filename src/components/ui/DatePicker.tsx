@@ -75,14 +75,14 @@ const DatePicker: React.FC<DatePickerProps> = ({
     }
 
     for (let d = 1; d <= totalDays; d++) {
-      const selected_style = isSelected(d) ? "bg-purple-600 text-white shadow-lg shadow-purple-200" : "text-gray-700 hover:bg-purple-50 hover:text-purple-600";
+      const selected_style = isSelected(d) ? "bg-purple-600 text-white" : "text-gray-700 hover:bg-purple-50 hover:text-purple-600";
       const today_style = isToday(d) && !isSelected(d) ? "border-2 border-purple-200" : "";
 
       days.push(
         <button
           key={d}
           onClick={() => handleDateSelect(d)}
-          className={`h-9 w-9 rounded-full text-sm font-medium transition-all ${selected_style} ${today_style} flex items-center justify-center`}
+          className={`h-9 w-9 rounded-full text-sm font-bold transition-all ${selected_style} ${today_style} flex items-center justify-center`}
         >
           {d}
         </button>
@@ -124,7 +124,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
       </button>
 
       {isOpen && (
-        <div className="absolute top-full mt-2 left-0 z-50 p-4 bg-gray-300  rounded-2xl shadow-2xl border border-gray-100 w-72 animate-in fade-in zoom-in duration-200">
+        <div className="absolute top-full mt-2 left-0 z-50 p-4 bg-purple-200  rounded-2xl shadow-lg border border-gray-100 w-72 animate-in fade-in zoom-in duration-200">
           <div className="flex items-center justify-between mb-4">
             <button
               onClick={handlePrevMonth}
@@ -169,7 +169,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
             </button>
             <button
               onClick={() => setIsOpen(false)}
-              className="text-[11px] font-bold text-gray-400 hover:text-gray-600 uppercase tracking-widest"
+              className="text-[11px] font-bold text-gray-700 hover:text-gray-900 uppercase tracking-widest"
             >
               Close
             </button>
